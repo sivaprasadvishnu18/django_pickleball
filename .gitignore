@@ -10,6 +10,8 @@ bin/
 include/
 /lib
 /lib64
+/zippedFile
+/zippedFile.zip
 
 # Backup files # 
 *.bak 
