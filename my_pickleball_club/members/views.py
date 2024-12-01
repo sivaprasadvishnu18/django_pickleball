@@ -1,25 +1,35 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from .models import Member
-import logging
+import uuid
 
 def members(request):
   mymembers = Member.objects.all().values()
-  print("mymembers: ", mymembers)
-  template = loader.get_template('all_members.html')
-  context = {
-    'mymembers': mymembers,
-  }
-  return HttpResponse(template.render(context, request))
+
+  if(mymembers):
+    return JsonResponse(list(mymembers), safe=False)
+  else:
+    return JsonResponse()
+
   
 def details(request, id):
-  mymember = Member.objects.get(id=id)
-  template = loader.get_template('details.html')
-  context = {
-    'mymember': mymember,
+  mymember = Member.objects.get(memberId=id)
+
+  data = {
+    'memberId': mymember.memberId,
+    'first_name': mymember.first_name,
+    'last_name': mymember.last_name,
+    'email': mymember.email,
+    'phone': mymember.phone,
+    'date_joined': mymember.date_joined,
+    'active': mymember.active
   }
-  return HttpResponse(template.render(context, request))
+
+  if(mymember):
+    return JsonResponse(data, safe=False)
+  else:
+    return JsonResponse()
   
 def main(request):
   template = loader.get_template('main.html')
-  return HttpResponse(template.render())
+  return HttpResponse(template.render()) 
