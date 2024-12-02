@@ -16,7 +16,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 
 
 urlpatterns = [
-    path('', include('members.urls')),
+    path('', include('members.api.urls')),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
 ]
