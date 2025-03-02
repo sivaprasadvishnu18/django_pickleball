@@ -6,8 +6,24 @@ from members.api.serializers import MemberSerializer, TeamSerializer, Tournament
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
+#from permissions import AdminOrReadOnly
+
+class testAuthView(APIView):
+    
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        print(request.headers)
+        return Response({'message': 'Headers logged!'}, status=200)
 
 class membersListAV(APIView):
+    
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     def get(self, request):
         mymembers = Member.objects.all()
         serializer = MemberSerializer(mymembers, many=True)
@@ -23,6 +39,10 @@ class membersListAV(APIView):
                 return Response(serializer.errors, status=400)
             
 class memberByIdAV(APIView):
+    
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     def get(self, request, id):
         try:
             mymember = Member.objects.get(memberId=id)
@@ -46,6 +66,10 @@ class memberByIdAV(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 class teamsListAV(APIView):
+    
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     def get(self, request):
         teams = Team.objects.all()
         serializer = TeamSerializer(teams, many=True)
@@ -61,6 +85,10 @@ class teamsListAV(APIView):
                 return Response(serializer.errors, status=400)
             
 class teamByIdAV(APIView):
+    
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, id):
         try:
             team = Team.objects.get(teamId=id)
@@ -84,6 +112,10 @@ class teamByIdAV(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 class tournamentWinsListAV(APIView):
+    
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     def get(self, request):
         tournament_wins = Tournament_Win.objects.all()
         serializer = TournamentWinsSerializer(tournament_wins, many=True)
@@ -99,6 +131,10 @@ class tournamentWinsListAV(APIView):
                 return Response(serializer.errors, status=400)
             
 class tournamentWinsByIdAV(APIView):
+    
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     def get(self, request, id):
         try:
             tournament_win = Tournament_Win.objects.get(id=id)
@@ -122,6 +158,10 @@ class tournamentWinsByIdAV(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 class tournamentsListAV(APIView):
+    
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     def get(self, request):
         tournaments = Tournament.objects.all()
         serializer = TournamentSerializer(tournaments, many=True)
@@ -137,6 +177,10 @@ class tournamentsListAV(APIView):
                 return Response(serializer.errors, status=400)
 
 class tournamentByIdAV(APIView):
+    
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     def get(self, request, id):
         try:
             tournament = Tournament.objects.get(id=id)
