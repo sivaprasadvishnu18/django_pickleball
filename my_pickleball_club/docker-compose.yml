@@ -1,0 +1,33 @@
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/auth_code
+    ports:
+      - "8000:8000"
+    environment:
+      DB_NAME: django_db
+      DB_USER: django_user
+      DB_PASSWORD: django_pass
+      DB_HOST: db
+      DB_PORT: 5432
+
+
+  db:
+    image: postgres:latest
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_DB: django_db
+      POSTGRES_USER: django_user
+      POSTGRES_PASSWORD: django_pass
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+
+      
